@@ -11,18 +11,29 @@ public class ReadFile{
       int lines = 0;
       //amt of words per line for length of each row
       int wPerL = 0;
+      //string version of file
+      String stringInf = "";
       while(inf.hasNextLine()){
-        lines++;
+        stringInf += inf.nextLine() + "\n";
       }
-      while(inf.hasNext()){
-        boolean next = true;
-        if(inf.next() == "\n"){
-          next = false;
-        }
-        if(next){
-          wPerL++;
+      //System.out.println(stringInf);
+      for(int i = 0; i < stringInf.length(); i++){
+        if (stringInf.charAt(i) == '\n'){
+          lines++;
         }
       }
+      //System.out.println(lines);
+      //string vers of first line
+      String line1 = "";
+      //System.out.println(inf.hasNextLine());
+      if (inf.hasNextLine()){
+        line1 += inf.nextLine();
+      }
+      //System.out.println(line1);
+      for(int i = 0; i < line1.length(); i++){
+        wPerL++;
+      }
+      //System.out.println(wPerL);
       String[][] maze = new String[lines][wPerL];
       int row = 0;
       int col = 0;
