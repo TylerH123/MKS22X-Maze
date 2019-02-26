@@ -13,11 +13,22 @@ public class ReadFile{
       int wPerL = 0;
       while(inf.hasNextLine()){
         lines++;
-        while(inf.hasNext()){
-          wPerL++;
+      }
+      while(inf.next() != "\n"){
+        wPerL++;
+      }
+      String[][] maze = new String[lines][wPerL];
+      while(inf.hasNext()){
+        int row = 0;
+        int col = 0;
+        String c = inf.next();
+        maze[row][col] = c;
+        if(col == wPerL - 1){
+          row++;
+          col = 0;
         }
       }
-      char[][] maze = new char[lines][wPerL];
+      
     }
     catch(FileNotFoundException e){
       System.out.println("File not found");
