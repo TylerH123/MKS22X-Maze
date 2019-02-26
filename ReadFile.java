@@ -14,21 +14,34 @@ public class ReadFile{
       while(inf.hasNextLine()){
         lines++;
       }
-      while(inf.next() != "\n"){
-        wPerL++;
+      while(inf.hasNext()){
+        boolean next = true;
+        if(inf.next() == "\n"){
+          next = false;
+        }
+        if(next){
+          wPerL++;
+        }
       }
       String[][] maze = new String[lines][wPerL];
+      int row = 0;
+      int col = 0;
       while(inf.hasNext()){
-        int row = 0;
-        int col = 0;
         String c = inf.next();
         maze[row][col] = c;
         if(col == wPerL - 1){
           row++;
           col = 0;
         }
+        col++;
       }
-      
+      String output = "";
+      for(int i = 0; i < lines; i++){
+        for(int j = 0; j < wPerL; j++){
+          output += maze[i][j];
+        }
+      }
+      System.out.println(output);
     }
     catch(FileNotFoundException e){
       System.out.println("File not found");
