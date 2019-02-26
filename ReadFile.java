@@ -13,44 +13,59 @@ public class ReadFile{
       int wPerL = 0;
       //string version of file
       String stringInf = "";
+      //boolean to check if it is reading first line
+      boolean isFirstLine = true;
+      //string vers of first line
+      String line1 = "";
+      //System.out.println(wPerL);
       while(inf.hasNextLine()){
-        stringInf += inf.nextLine() + "\n";
+        String line = inf.nextLine();
+        if (isFirstLine){
+          line1 += line;
+          isFirstLine = false;
+        }
+        stringInf += line + "\n";
       }
       //System.out.println(stringInf);
+      //count # of lines
       for(int i = 0; i < stringInf.length(); i++){
         if (stringInf.charAt(i) == '\n'){
           lines++;
         }
       }
       //System.out.println(lines);
-      //string vers of first line
-      String line1 = "";
       //System.out.println(inf.hasNextLine());
-      if (inf.hasNextLine()){
-        line1 += inf.nextLine();
-      }
       //System.out.println(line1);
+      //count number of characters in a row
       for(int i = 0; i < line1.length(); i++){
         wPerL++;
       }
       //System.out.println(wPerL);
-      String[][] maze = new String[lines][wPerL];
+      //System.out.println(stringInf);
+      char[][] maze = new char[lines][wPerL];
       int row = 0;
       int col = 0;
-      while(inf.hasNext()){
-        String c = inf.next();
-        maze[row][col] = c;
-        if(col == wPerL - 1){
-          row++;
-          col = 0;
+      for(int i = 0; i < stringInf.length(); i++){
+        if (row < lines){
+          if (col >= wPerL){
+            col = 0;
+          }
+          if (stringInf.charAt(i) == '\n'){
+            row++;
+          }
+          else{
+            maze[row][col] = stringInf.charAt(i);
+            col++;
+          }
         }
-        col++;
       }
+      //string representation of array
       String output = "";
       for(int i = 0; i < lines; i++){
         for(int j = 0; j < wPerL; j++){
           output += maze[i][j];
         }
+        output += "\n";
       }
       System.out.println(output);
     }
