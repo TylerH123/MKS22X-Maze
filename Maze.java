@@ -47,24 +47,27 @@ public class Maze{
     if (start == 0 || end == 0) throw new IllegalStateException("Please make sure there is a start and end point");
     if (end > 1) throw new IllegalStateException("There can only be 1 end point");
     maze = new char[rows][cols];
-    copyToArray(m,cols);
+    copyToArray(m,rows,cols);
   }
   //copies the string version of the maze to the array
   //m is the maze
   //length is the lenght of each line
-  public void copyToArray(String m, int length){
+  //size is the amount of rows
+  public void copyToArray(String m, int size, int length){
+    int r = 0;
+    int c = 0;
     for(int i = 0; i < m.length(); i++){
-      int r = 0;
-      int c = 0;
-      if (m.charAt(i) == '\n'){
-        r++;
-      }
-      if (c >= length - 1){
-        c = 0;
-      }
-      else{
-        maze[r][c] = m.charAt(i);
-        c++;
+      if (r < size){
+        if (m.charAt(i) == '\n'){
+          r++;
+        }
+        if (c >= length){
+          c = 0;
+        }
+        else{
+          maze[r][c] = m.charAt(i);
+          c++;
+        }
       }
     }
   }
@@ -85,5 +88,15 @@ public class Maze{
       output += "\n";
     }
     return output;
+  }
+
+  public static void main(String[] args){
+    try{
+      Maze z = new Maze("Maze1.txt");
+      //System.out.println(z);
+    }
+    catch(FileNotFoundException e){
+      System.out.println("File not found");
+    }
   }
 }
