@@ -43,9 +43,8 @@ public class Maze{
       if (m.charAt(i) == 'S') start++;
       if (m.charAt(i) == 'E') end++;
     }
-    if (start > 1) throw new IllegalStateException("There can only be 1 starting point");
+    if (start > 1 || end > 1) throw new IllegalStateException("There can only be 1 starting point or ending point");
     if (start == 0 || end == 0) throw new IllegalStateException("Please make sure there is a start and end point");
-    if (end > 1) throw new IllegalStateException("There can only be 1 end point");
     maze = new char[rows][cols];
     copyToArray(m,rows,cols);
   }
@@ -94,6 +93,8 @@ public class Maze{
     try{
       Maze z = new Maze("Maze1.txt");
       //System.out.println(z);
+      Maze z2 = new Maze("Maze2.txt");
+      System.out.println(z);
     }
     catch(FileNotFoundException e){
       System.out.println("File not found");
