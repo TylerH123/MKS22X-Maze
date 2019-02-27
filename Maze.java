@@ -23,14 +23,48 @@ public class Maze{
     Scanner file = new Scanner(f);
     int rows = 0;
     int cols = 0;
-    makeIntoMaze(f,rows,cols,maze);
-  }
-  public void makeIntoMaze(File f, int lines, int linesLength, char[][] arr){
-    String str = ""; 
-    while(f.hasNextLine()){
-      linesLength = f.NextLine().length();
+    String m = "";
+    int start = 0;
+    int end = 0;
+    //obtaining amount of lines and characters per line
+    //also copying file into a string
+    while (file.hasNextLine()){
+      String s = file.nextLine();
+      rows++;
+      cols = s.length();
+      m += s + "\n";
     }
-
+    //reset the scanner
+    file = new Scanner(f);
+    //find out how many starts and ends there are
+    for(int i = 0; i < m.length(); i++){
+      if (m.charAt(i) == 'S') start++;
+      if (m.charAt(i) == 'E') end++;
+    }
+    if (start > 1) throw new IllegalStateException("There can only be 1 starting point");
+    if (start == 0 || end == 0) throw new IllegalStateException("Please make sure there is a start and end point");
+    if (end > 1) throw new IllegalStateException("There can only be 1 end point");
+    maze = new char[rows][cols];
+    copyToArray(m,cols);
+  }
+  //copies the string version of the maze to the array
+  //m is the maze
+  //length is the lenght of each line
+  public void copyToArray(String m, int length){
+    for(int i = 0; i < m.length(); i++){
+      int r = 0;
+      int c = 0;
+      if (m.charAt(i) == '\n'){
+        r++;
+      }
+      if (c >= length - 1){
+        c = 0;
+      }
+      else{
+        maze[r][c] = m.charAt(i);
+        c++;
+      }
+    }
   }
   public boolean checkState(){
     return true;
