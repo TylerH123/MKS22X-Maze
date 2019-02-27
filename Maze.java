@@ -24,10 +24,12 @@ public class Maze{
     int rows = 0;
     int cols = 0;
     String m = "";
+    //count of how many start points
     int start = 0;
+    //count of how many end points
     int end = 0;
     //obtaining amount of lines and characters per line
-    //also copying file into a string
+    //also copying file into a string for easier access
     while (file.hasNextLine()){
       String s = file.nextLine();
       rows++;
@@ -66,7 +68,22 @@ public class Maze{
       }
     }
   }
-  public boolean checkState(){
-    return true;
+  public void setAnimate(boolean b){
+    animate = b;
+  }
+  public void clearTerminal(){
+        //erase terminal, go to top left of screen.
+        System.out.println("\033[2J\033[1;1H");
+  }
+  //string representation of the maze
+  public String toString(){
+    String output = "";
+    for (int r = 0; r < maze.length; r++){
+      for (int c = 0; c < maze[r].length; c++){
+        output += maze[r][c];
+      }
+      output += "\n";
+    }
+    return output;
   }
 }
