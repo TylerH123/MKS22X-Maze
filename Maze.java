@@ -70,6 +70,13 @@ public class Maze{
       }
     }
   }
+  private void wait(int millis){
+    try {
+      Thread.sleep(millis);
+    }
+    catch (InterruptedException e) {
+    }
+  }
   public void setAnimate(boolean b){
     animate = b;
   }
@@ -103,6 +110,7 @@ public class Maze{
         if (maze[r][c] == 'S'){
           row = r;
           col = c;
+          maze[r][c] = '@';
         }
       }
     }
@@ -123,7 +131,13 @@ public class Maze{
        All visited spots that were not part of the solution are changed to '.'
        All visited spots that are part of the solution are changed to '@'
   */
-  public int solve(int row, int col){
+  private int solve(int row, int col){
+    //automatic animation! You are welcome.
+    if(animate){
+      clearTerminal();
+      System.out.println(this);
+      wait(20);
+    }
 
     return -1;
   }
