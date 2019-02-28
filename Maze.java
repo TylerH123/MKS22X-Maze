@@ -77,7 +77,9 @@ public class Maze{
         //erase terminal, go to top left of screen.
         System.out.println("\033[2J\033[1;1H");
   }
-  //string representation of the maze
+  /*Return the string that represents the maze.
+     It should look like the text file with some characters replaced.
+  */
   public String toString(){
     String output = "";
     for (int r = 0; r < maze.length; r++){
@@ -88,7 +90,43 @@ public class Maze{
     }
     return output;
   }
+  /*Wrapper Solve Function returns the helper function
+     Note the helper function has the same name, but different parameters.
+     Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
+  */
+  public int solve(){
+    //find the location of the S.
+    int row = 0;
+    int col = 0;
+    for(int r = 0; r < maze.length; r++){
+      for(int c = 0; c < maze.length; c++){
+        if (maze[r][c] == 'S'){
+          row = r;
+          col = c;
+        }
+      }
+    }
+    //erase the S
+    //and start solving at the location of the s.
+    return solve(row,col);
+  }
+  /*
+     Recursive Solve function:
 
+     A solved maze has a path marked with '@' from S to E.
+
+     Returns the number of @ symbols from S to E when the maze is solved,
+     Returns -1 when the maze has no solution.
+
+     Postcondition:
+       The S is replaced with '@' but the 'E' is not.
+       All visited spots that were not part of the solution are changed to '.'
+       All visited spots that are part of the solution are changed to '@'
+  */
+  public int solve(int row, int col){
+
+    return -1;
+  }
   public static void main(String[] args){
     try{
       Maze z = new Maze("Maze1.txt");
