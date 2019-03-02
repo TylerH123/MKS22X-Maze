@@ -4,6 +4,7 @@ public class Maze{
 
   private char[][] maze;
   private boolean animate;
+  private int[] direction = new int[]{0, -1, 0, 1, 1, 0, -1, 0};
   /*Constructor loads a maze text file, and sets animate to false by default.
 
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -103,20 +104,20 @@ public class Maze{
   */
   public int solve(){
     //find the location of the S.
-    int row = 0;
-    int col = 0;
+    int startRow = 0;
+    int startCol = 0;
     for(int r = 0; r < maze.length; r++){
       for(int c = 0; c < maze.length; c++){
         if (maze[r][c] == 'S'){
-          row = r;
-          col = c;
+          startRow = r;
+          startCol = c;
+          //erases the S
           maze[r][c] = '@';
         }
       }
     }
-    //erase the S
     //and start solving at the location of the s.
-    return solve(row,col);
+    return solve(startRow,startCol);
   }
   /*
      Recursive Solve function:
@@ -138,7 +139,22 @@ public class Maze{
       System.out.println(this);
       wait(20);
     }
-
+    maze[row][col] = '@';
+    int changeRow;
+    int changeCol;
+    for (int i = 0; i < direction.length; i+=2){
+      changeRow = row + direction[i];
+      changeCol = col + direction[i+1];
+      if (maze[changeRow][changeCol] == ' '){
+        solve(changeRow,changeCol);
+      }
+      else if (maze[changeRow][changeCol] == 'E'){
+        return 1;
+      }
+    }
+    //mark the place you been to with a period
+    maze[row][col] = '.';
+    //no solution
     return -1;
   }
   public static void main(String[] args){
@@ -146,7 +162,8 @@ public class Maze{
       Maze z = new Maze("Maze1.txt");
       //System.out.println(z);
       Maze z2 = new Maze("Maze2.txt");
-      System.out.println(z);
+      //System.out.println(z);
+      System.out.println(z.solve());
     }
     catch(FileNotFoundException e){
       System.out.println("File not found");
