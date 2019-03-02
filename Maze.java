@@ -106,6 +106,8 @@ public class Maze{
     //find the location of the S.
     int startRow = 0;
     int startCol = 0;
+    int endRow = 0;
+    int endCol = 0;
     for(int r = 0; r < maze.length; r++){
       for(int c = 0; c < maze.length; c++){
         if (maze[r][c] == 'S'){
@@ -114,10 +116,15 @@ public class Maze{
           //erases the S
           maze[r][c] = '@';
         }
+        if (maze[r][c] == 'E'){
+          endRow = r;
+          endCol = c;
+        }
       }
     }
     //and start solving at the location of the s.
-    return solve(startRow,startCol);
+    return 3;
+    //return solve(startRow,startCol,endRow,endCol);
   }
   /*
      Recursive Solve function:
@@ -132,7 +139,7 @@ public class Maze{
        All visited spots that were not part of the solution are changed to '.'
        All visited spots that are part of the solution are changed to '@'
   */
-  private int solve(int row, int col){
+  private int solve(int row, int col, int eRow, int eCol){
     //automatic animation! You are welcome.
     if(animate){
       clearTerminal();
@@ -148,11 +155,12 @@ public class Maze{
     for (int i = 0; i < direction.length; i+=2){
       changeRow = row + direction[i];
       changeCol = col + direction[i+1];
-      if (maze[changeRow][changeCol] == ' '){
-        solve(changeRow,changeCol);
-      }
-      else if (maze[changeRow][changeCol] == 'E'){
+      if (changeRow == eRow && changeCol == eCol){
+        System.out.println("this code sux");
         return 1;
+      }
+      if (maze[changeRow][changeCol] == ' '){
+        solve(changeRow,changeCol,eRow,eCol);
       }
     }
     //mark the place you been to with a period
