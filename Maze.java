@@ -137,11 +137,14 @@ public class Maze{
     if(animate){
       clearTerminal();
       System.out.println(this);
-      wait(20);
+      wait(40);
     }
+    //mark the place you are with @
     maze[row][col] = '@';
+    //var for location of where to move next
     int changeRow;
     int changeCol;
+    //loop through each direction
     for (int i = 0; i < direction.length; i+=2){
       changeRow = row + direction[i];
       changeCol = col + direction[i+1];
@@ -159,11 +162,19 @@ public class Maze{
   }
   public static void main(String[] args){
     try{
-      Maze z = new Maze("Maze1.txt");
+      //Maze z = new Maze("Maze1.txt");
+      //z.setAnimate(true);
       //System.out.println(z);
-      Maze z2 = new Maze("Maze2.txt");
+      //Maze z2 = new Maze("Maze2.txt");
       //System.out.println(z);
-      System.out.println(z.solve());
+      //System.out.println(z.solve());
+      Maze f;
+      f = new Maze("data2.dat");
+      //true animates the maze.
+
+      f.setAnimate(true);
+      System.out.println(f.solve());
+      //System.out.println(f);
     }
     catch(FileNotFoundException e){
       System.out.println("File not found");
