@@ -5,6 +5,7 @@ public class Maze{
   private char[][] maze;
   private boolean animate;
   private int[] direction = new int[]{0, -1, 0, 1, 1, 0, -1, 0};
+  private int startRow, startCol, endRow, endCol;
   /*Constructor loads a maze text file, and sets animate to false by default.
 
       1. The file contains a rectangular ascii maze, made with the following 4 characters:
@@ -40,14 +41,25 @@ public class Maze{
     //reset the scanner
     file = new Scanner(f);
     //find out how many starts and ends there are
-    for(int i = 0; i < m.length(); i++){
-      if (m.charAt(i) == 'S') start++;
-      if (m.charAt(i) == 'E') end++;
+    copyToArray(m,rows,cols);
+    for(int i = 0; i < maze.length; i++){
+      for (int j = 0; j < maze[i].length; j++){
+        if (maze[i][j] == 'S'){
+          start++;
+          startRow = i;
+          startCol = j;
+          maze[i][j] = '@';
+        }
+        if (maze[i][j] == 'E'){
+          end++;
+          endRow = i;
+          endCol = j;
+        }
+      }
     }
     if (start > 1 || end > 1) throw new IllegalStateException("There can only be 1 starting point or ending point");
     if (start == 0 || end == 0) throw new IllegalStateException("Please make sure there is a start and end point");
     maze = new char[rows][cols];
-    copyToArray(m,rows,cols);
   }
   //copies the string version of the maze to the array
   //m is the maze
@@ -103,28 +115,10 @@ public class Maze{
      Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
   */
   public int solve(){
-    //find the location of the S.
-    int startRow = 0;
-    int startCol = 0;
-    int endRow = 0;
-    int endCol = 0;
-    for(int r = 0; r < maze.length; r++){
-      for(int c = 0; c < maze.length; c++){
-        if (maze[r][c] == 'S'){
-          startRow = r;
-          startCol = c;
-          //erases the S
-          maze[r][c] = '@';
-        }
-        if (maze[r][c] == 'E'){
-          endRow = r;
-          endCol = c;
-        }
-      }
-    }
-    //and start solving at the location of the s.
+    //start solving at the location of the s.
+    System.out.println(maze[endRow][endCol]);
     return 3;
-    //return solve(startRow,startCol,endRow,endCol);
+    //return solve(startRow,startCol);
   }
   /*
      Recursive Solve function:
@@ -139,7 +133,7 @@ public class Maze{
        All visited spots that were not part of the solution are changed to '.'
        All visited spots that are part of the solution are changed to '@'
   */
-  private int solve(int row, int col, int eRow, int eCol){
+  private int solve(int row, int col){
     //automatic animation! You are welcome.
     if(animate){
       clearTerminal();
@@ -155,12 +149,12 @@ public class Maze{
     for (int i = 0; i < direction.length; i+=2){
       changeRow = row + direction[i];
       changeCol = col + direction[i+1];
-      if (changeRow == eRow && changeCol == eCol){
+      if (changeRow == endRow && changeCol == endCol){
         System.out.println("this code sux");
         return 1;
       }
       if (maze[changeRow][changeCol] == ' '){
-        solve(changeRow,changeCol,eRow,eCol);
+        solve(changeRow,changeCol);
       }
     }
     //mark the place you been to with a period
@@ -179,9 +173,8 @@ public class Maze{
       Maze f;
       f = new Maze("data2.dat");
       //true animates the maze.
-
       f.setAnimate(true);
-      System.out.println(f.solve());
+      //System.out.println(f.solve());
       //System.out.println(f);
     }
     catch(FileNotFoundException e){
