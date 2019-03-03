@@ -25,7 +25,6 @@ public class Maze{
     Scanner file = new Scanner(f);
     int rows = 0;
     int cols = 0;
-    String m = "";
     //count of how many start points
     int start = 0;
     //count of how many end points
@@ -36,30 +35,31 @@ public class Maze{
       String s = file.nextLine();
       rows++;
       cols = s.length();
-      m += s + "\n";
     }
     //reset the scanner
     file = new Scanner(f);
+    maze = new char[rows][cols];
     //find out how many starts and ends there are
-    copyToArray(m,rows,cols);
-    for(int i = 0; i < maze.length; i++){
-      for (int j = 0; j < maze[i].length; j++){
-        if (maze[i][j] == 'S'){
+    //also find out where starting and end point are
+    for(int i = 0; i < rows; i++){
+      String line = file.nextLine();
+      for (int j = 0; j < cols; j++){
+        char c = line.charAt(j);
+        if (c == 'S'){
           start++;
           startRow = i;
           startCol = j;
-          maze[i][j] = '@';
         }
-        if (maze[i][j] == 'E'){
+        if (c == 'E'){
           end++;
           endRow = i;
           endCol = j;
         }
+        maze[i][j] = c;
       }
     }
     if (start > 1 || end > 1) throw new IllegalStateException("There can only be 1 starting point or ending point");
     if (start == 0 || end == 0) throw new IllegalStateException("Please make sure there is a start and end point");
-    maze = new char[rows][cols];
   }
   //copies the string version of the maze to the array
   //m is the maze
@@ -116,9 +116,7 @@ public class Maze{
   */
   public int solve(){
     //start solving at the location of the s.
-    System.out.println(maze[endRow][endCol]);
-    return 3;
-    //return solve(startRow,startCol);
+    return solve(startRow,startCol);
   }
   /*
      Recursive Solve function:
@@ -174,7 +172,7 @@ public class Maze{
       f = new Maze("data2.dat");
       //true animates the maze.
       f.setAnimate(true);
-      //System.out.println(f.solve());
+      System.out.println(f.solve());
       //System.out.println(f);
     }
     catch(FileNotFoundException e){
