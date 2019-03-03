@@ -136,28 +136,31 @@ public class Maze{
     if(animate){
       clearTerminal();
       System.out.println(this);
-      wait(40);
+      wait(10);
     }
-    //mark the place you are with @
-    maze[row][col] = '@';
-    //var for location of where to move next
-    int changeRow;
-    int changeCol;
-    //loop through each direction
-    for (int i = 0; i < direction.length; i+=2){
-      changeRow = row + direction[i];
-      changeCol = col + direction[i+1];
-      if (changeRow == endRow && changeCol == endCol){
-        System.out.println("this code sux");
-        return 1;
-      }
-      if (maze[changeRow][changeCol] == ' '){
-        solve(changeRow,changeCol);
-      }
+    if (row == endRow && col == endCol){
+      return 1;
     }
+    else{
+      //mark the place you are with @
+      maze[row][col] = '@';
+      //var for location of where to move next
+      int changeRow;
+      int changeCol;
+      //loop through each direction
+      for (int i = 0; i < direction.length; i+=2){
+        changeRow = row + direction[i];
+        changeCol = col + direction[i+1];
+        if (maze[changeRow][changeCol] == 'E'){
+          solve(changeRow,changeCol);
+        }
+        if (maze[changeRow][changeCol] == ' '){
+          solve(changeRow,changeCol);
+        }
+      }
     //mark the place you been to with a period
     maze[row][col] = '.';
-    //no solution
+    }
     return -1;
   }
   public static void main(String[] args){
@@ -171,7 +174,7 @@ public class Maze{
       Maze f;
       f = new Maze("data2.dat");
       //true animates the maze.
-      f.setAnimate(true);
+      f.setAnimate(false);
       System.out.println(f.solve());
       //System.out.println(f);
     }
