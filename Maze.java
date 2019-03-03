@@ -143,12 +143,15 @@ public class Maze{
     //var for location of where to move next
     int nextRow;
     int nextCol;
+    int next;
     //loop through each direction
     for (int i = 0; i < direction.length; i+=2){
       nextRow = row + direction[i];
       nextCol = col + direction[i+1];
       if (maze[nextRow][nextCol] == ' '){
-        solve(nextRow,nextCol);
+        next = solve(nextRow,nextCol);
+        //only happens if the end has been reached
+        if (next != -1) return next;
       }
       else if (maze[nextRow][nextCol] == 'E'){
         return 1;
