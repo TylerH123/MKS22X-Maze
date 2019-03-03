@@ -138,29 +138,24 @@ public class Maze{
       System.out.println(this);
       wait(10);
     }
-    if (row == endRow && col == endCol){
-      return 1;
-    }
-    else{
-      //mark the place you are with @
-      maze[row][col] = '@';
-      //var for location of where to move next
-      int changeRow;
-      int changeCol;
-      //loop through each direction
-      for (int i = 0; i < direction.length; i+=2){
-        changeRow = row + direction[i];
-        changeCol = col + direction[i+1];
-        if (maze[changeRow][changeCol] == 'E'){
-          solve(changeRow,changeCol);
-        }
-        if (maze[changeRow][changeCol] == ' '){
-          solve(changeRow,changeCol);
-        }
+    //mark the place you are with @
+    maze[row][col] = '@';
+    //var for location of where to move next
+    int nextRow;
+    int nextCol;
+    //loop through each direction
+    for (int i = 0; i < direction.length; i+=2){
+      nextRow = row + direction[i];
+      nextCol = col + direction[i+1];
+      if (maze[nextRow][nextCol] == ' '){
+        solve(nextRow,nextCol);
       }
+      else if (maze[nextRow][nextCol] == 'E'){
+        return 1;
+      }
+    }
     //mark the place you been to with a period
     maze[row][col] = '.';
-    }
     return -1;
   }
   public static void main(String[] args){
