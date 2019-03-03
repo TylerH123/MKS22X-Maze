@@ -151,6 +151,7 @@ public class Maze{
         solve(nextRow,nextCol);
       }
       else if (maze[nextRow][nextCol] == 'E'){
+
         return 1;
       }
     }
@@ -167,9 +168,10 @@ public class Maze{
       //System.out.println(z);
       //System.out.println(z.solve());
       Maze f;
-      f = new Maze("data2.dat");
+      //f = new Maze("data2.dat");
+      f = new Maze("Maze1.txt");
       //true animates the maze.
-      f.setAnimate(false);
+      f.setAnimate(true);
       System.out.println(f.solve());
       //System.out.println(f);
     }
