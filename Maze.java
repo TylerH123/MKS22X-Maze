@@ -151,7 +151,6 @@ public class Maze{
         solve(nextRow,nextCol);
       }
       else if (maze[nextRow][nextCol] == 'E'){
-
         return 1;
       }
     }
