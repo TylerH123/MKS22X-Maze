@@ -115,8 +115,9 @@ public class Maze{
      Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
   */
   public int solve(){
+    maze[startRow][startCol] = ' ';
     //start solving at the location of the s.
-    return solve(startRow,startCol);
+    return solve(startRow,startCol,0);
   }
   /*
      Recursive Solve function:
@@ -131,34 +132,32 @@ public class Maze{
        All visited spots that were not part of the solution are changed to '.'
        All visited spots that are part of the solution are changed to '@'
   */
-  private int solve(int row, int col){
+  private int solve(int row, int col, int count){
     //automatic animation! You are welcome.
     if(animate){
       clearTerminal();
       System.out.println(this);
       wait(10);
     }
-    //mark the place you are with @
-    maze[row][col] = '@';
-    //var for location of where to move next
-    int nextRow;
-    int nextCol;
-    int next;
+    //if end is reached
+    if (maze[row][col] == 'E'){
+      return count;
+    }
+    //if the loc is not an empty spot
+    if (maze[row][col] != ' '){
+      return -1;
+    }
     //loop through each direction
     for (int i = 0; i < direction.length; i+=2){
-      nextRow = row + direction[i];
-      nextCol = col + direction[i+1];
-      if (maze[nextRow][nextCol] == ' '){
-        next = solve(nextRow,nextCol);
-        //only happens if the end has been reached
-        if (next != -1) return next;
+      //mark the place you are with @
+      maze[row][col] = '@';
+      int next = solve(row + direction[i],col + direction[i+1],count+1);
+      if (next != -1){
+        return next;
       }
-      else if (maze[nextRow][nextCol] == 'E'){
-        return 1;
-      }
+      //mark the place you been to with a period
+      maze[row][col] = '.';
     }
-    //mark the place you been to with a period
-    maze[row][col] = '.';
     return -1;
   }
   public static void main(String[] args){
@@ -173,7 +172,7 @@ public class Maze{
       //f = new Maze("data2.dat");
       f = new Maze("Maze1.txt");
       //true animates the maze.
-      f.setAnimate(true);
+      f.setAnimate(false);
       System.out.println(f.solve());
       //System.out.println(f);
     }
